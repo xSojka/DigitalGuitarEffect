@@ -9,8 +9,11 @@ add_library(${CMAKE_PROJECT_NAME}_lib SHARED ${SOURCES})
 
 IF(WIN32)
     target_link_libraries(${CMAKE_PROJECT_NAME}_lib PUBLIC ${CMAKE_SOURCE_DIR}/lib/portaudio/portaudio.lib)
+ELSEIF(APPLE)
+    target_link_libraries(${CMAKE_PROJECT_NAME}_lib PUBLIC ${CMAKE_SOURCE_DIR}/lib/portaudio/build/libportaudio.dylib)
 ELSE()
     target_link_libraries(${CMAKE_PROJECT_NAME}_lib PUBLIC ${CMAKE_SOURCE_DIR}/lib/portaudio/libportaudio.a rt m asound pthread)
 ENDIF()
+
 
 #add_library(${CMAKE_PROJECT_NAME}_lib_static STATIC ${SOURCES})

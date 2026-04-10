@@ -7,7 +7,7 @@
 cmake -B build
 cmake --build build --config Release
 ```
-### Linux:
+### Linux & MacOS:
 Run app:
 ```
 python3 src/python/main.py
@@ -99,3 +99,25 @@ export CFLAGS="-fPIC"
 ./configure & make
 ```
 - Copy folder portaudio/include and lib file portaudio/build/libportaudio.a to DigitalGuitarEffect/lib/portaudio
+
+#### MacOS:
+- create lib directory
+```
+mkdir lib && cd lib
+```
+- clone portaudio repository: https://github.com/PortAudio/portaudio.git
+```
+git clone https://github.com/PortAudio/portaudio.git
+```
+- change directory to portaudio
+```
+cd portaudio
+```
+- create build folder
+```
+mkdir build && cd build
+```
+- compile project:
+```
+cmake .. && make
+```
