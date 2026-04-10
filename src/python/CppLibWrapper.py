@@ -1,12 +1,20 @@
 import ctypes
+import platform
 import os
 
 class CppLib:
     def __init__(self):
-        if os.name == 'nt':
+        if platform.system() == "Windows":
+            #print("Windows")
             cpplib_path = os.path.join("bin", "Release", "app_lib.dll")
-        else:
-            cpplib_path = os.path.join("bin", "libapp_lib.so")
+        elif platform.system() == "Linux":
+            #print("Linux")
+            cpplib_path = os.path.join("bin", "libapp_lib.so") 
+        elif platform.system() == "Darwin":
+            #print("macOS")
+            cpplib_path = os.path.join("bin", "libapp_lib.dylib")
+        else: 
+            print("system not recognized")
 
         self.cpplib = ctypes.CDLL(cpplib_path)
         self.cpplib.InitPA()
@@ -47,7 +55,7 @@ class CppLib:
     def Start(self, inputDevice, outputDevice, sampleRate):
         self.cpplib.Start.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_int]
         self.cpplib.Start(inputDevice, outputDevice, sampleRate)
-
+        
 
     def Stop(self):
         self.cpplib.Stop()

@@ -2,6 +2,10 @@
 
 #include "portaudio.h"
 
+#ifdef __APPLE__
+#include "pa_mac_core.h"
+#endif
+
 #include <iostream>
 #include <vector>
 #include <functional>

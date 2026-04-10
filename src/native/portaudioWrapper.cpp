@@ -88,6 +88,13 @@ void PortaudioWrapper::StartStream(int inputDeviceId, int outputDeviceId, int sa
     outputParameters.sampleFormat = SAMPLE_FORMAT;
     outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
 
+#ifdef __APPLE__
+    PaMacCoreStreamInfo macInfo;
+    PaMacCore_SetupStreamInfo(&macInfo, paMacCorePro);
+    inputParameters.hostApiSpecificStreamInfo = &macInfo;
+    outputParameters.hostApiSpecificStreamInfo = &macInfo;
+#endif
+
     Pa_OpenStream(
               &stream,
               &inputParameters,
@@ -98,6 +105,10 @@ void PortaudioWrapper::StartStream(int inputDeviceId, int outputDeviceId, int sa
               audio_callback,
               obj);
     Pa_StartStream(stream);
+    
+    const PaStreamInfo* info = Pa_GetStreamInfo(stream);
+    printf("Input latency: %fms\n", info->inputLatency*1000);
+    printf("Output latency: %fms\n", info->outputLatency*1000);
 }
 
 void PortaudioWrapper::StopStream()
